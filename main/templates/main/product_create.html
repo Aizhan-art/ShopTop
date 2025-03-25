@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .custom-form-container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .custom-input {
+        height: 45px;
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 10px 15px;
+        border: 1px solid #aaa;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        display: block;
+    }
+
+    .custom-input:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+        background-color: #ffffff;
+    }
+
+    .custom-form label {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .main-border-button {
+        background-color: #28a745;
+        color: white;
+        font-size: 16px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .main-border-button:hover {
+        background-color: #218838;
+        box-shadow: 0px 4px 10px rgba(40, 167, 69, 0.4);
+    }
+
+    .register-link {
+        color: #28a745;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .register-link:hover {
+        color: #218838;
+        text-decoration: none;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row py-5">
+        <div class="col-md-6 m-auto">
+            <div class="custom-form-container">
+                <h1 class="h1 text-center text-white">Создать продукт</h1>
+                <p class="text-center text-light">Заполните форму ниже для создания продукта.</p>
+                <form method="post" action="." enctype="multipart/form-data" class="custom-form">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                     <label for="id_images" class="text-white">Дополнительные изображения</label>
+                     <input type="file" name="images" id="id_images" multiple class="form-control">
+                    <div class="text-center">
+                        <button type="submit" class="main-border-button">Создать</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <span class="text-light">Уже есть аккаунт?</span>
+                    <a href="{% url 'login' %}" class="register-link">Войти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

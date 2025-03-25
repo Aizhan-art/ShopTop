@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Заголовок категории -->
+    <h1 class="text-center text-success my-4">{{ category.title }}</h1>
+
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card border">
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.title }}" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-success">{{ product.title }}</h5>
+                            <p class="card-text"><strong>${{ product.price }}</strong></p>
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-secondary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

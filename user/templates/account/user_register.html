@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Registration Form -->
+    <div class="container py-5">
+        <div class="row py-5">
+            <div class="col-md-6 m-auto">
+                <h1 class="h1 text-center">Регистрация пользователя</h1>
+                <p class="text-center">Create your account by filling the form below.</p>
+                <form method="post" action=".">
+                   {% csrf_token %}
+                   {{ form.as_p}}
+                        <div class="text-center">
+                            <button type="submit" class="main-border-button">Зарегистрироваться</button>
+                        </div>
+                </form>
+                    <div class="text-center mt-3">
+                        <span>Уже есть аккаунт?</span>
+                        <a href="login.html" class="text-decoration-underline">Войти</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Registration Form -->
+{% endblock %}

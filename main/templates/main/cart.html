@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="text-center text-success my-4">Корзина</h1>
+
+<div class="container">
+    {% if cart_items %}
+        <div class="row">
+            {% for item in cart_items %}
+                <div class="col-md-4 mb-4">
+                    <div class="card border">
+                        <img src="{{ item.product.main_image.url }}" class="card-img-top" alt="{{ item.product.title }}" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-success">{{ item.product.title }}</h5>
+                            <p class="card-text"><strong>${{ item.product.price }}</strong></p>
+                            <p class="card-text">Количество: {{ item.quantity }}</p>
+                            <a href="{% url 'product_detail' item.product.id %}" class="btn btn-success btn-sm">Подробнее</a>
+                            <button class="btn btn-danger btn-sm remove-from-cart" data-product-id="{{ item.product.id }}">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">Ваша корзина пуста.</p>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".remove-from-cart").forEach(button => {
+        button.addEventListener("click", function () {
+            const productId = this.getAttribute("data-product-id");
+
+            fetch(`/cart/remove/${productId}/`, {
+                method: "POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            });
+        });
+    });
+});
+</script>
+
+{% endblock %}

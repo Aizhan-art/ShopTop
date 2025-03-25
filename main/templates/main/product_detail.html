@@ -1,0 +1,495 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Open Content -->
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img-top img-fluid"
+                             src="{{ product.main_image.url }}"
+                             alt="Product image"
+                             id="product-detail"
+                             style="max-height: 500px; object-fit: cover;">
+                    </div>
+
+                    <div class="row">
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-dark fas fa-chevron-left"></i>
+                                <span class="sr-only">{{ product.title }}</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                        <!--Start Carousel Wrapper-->
+                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                            <!--Start Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
+
+                                <!--First slide-->
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        {% for image in product.images.all %}
+                                          <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{ image.file.url }}" alt="">
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!--/.First slide-->
+
+                                <!--Second slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        {% for image in product.images.all %}
+                                          <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{ image.file.url }}" alt="">
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!--/.Second slide-->
+
+                                <!--Third slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        {% for image in product.images.all %}
+                                          <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{ image.file.url }}" alt="Product Image">
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!--/.Third slide-->
+                            </div>
+                            <!--End Slides-->
+                        </div>
+                        <!--End Carousel Wrapper-->
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-dark fas fa-chevron-right"></i>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2">{{ product.title }}</h1>
+                            <p class="h3 py-2">${{ product.price }}</p>
+                           <p class="py-2">
+                              {% with rating_int=rating_avg|floatformat:"0"|add:"0" %}
+                            <p class="py-2">
+                            {% if product.rating_set.count %}
+                               {% for star in "12345" %}
+                                  {% if forloop.counter <= rating_int %}
+                                      <i class="fa fa-star text-warning"></i>
+                                  {% else %}
+                                      <i class="fa fa-star text-secondary"></i>
+                                  {% endif %}
+                               {% endfor %}
+                            <span class="list-inline-item text-dark">
+                             {{ rating_avg|floatformat:1 }} | {{ product.rating_set.count }} Комментарии
+                            </span>
+    {% else %}
+        <i class="fa fa-star text-secondary"></i>
+        <i class="fa fa-star text-secondary"></i>
+        <i class="fa fa-star text-secondary"></i>
+        <i class="fa fa-star text-secondary"></i>
+        <i class="fa fa-star text-secondary"></i>
+        <span class="list-inline-item text-dark">Отзывов пока нет</span>
+    {% endif %}
+</p>
+{% endwith %}
+
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>brand:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>Easy Wear</strong></p>
+                                </li>
+                            </ul>
+                            <h6>{{ product.description }}</h6>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Цвет</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{ product.color }}</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Specification:</h6>
+                            <ul class="list-unstyled pb-3">
+                                <li>Lorem ipsum dolor sit</li>
+                                <li>Amet, consectetur</li>
+                                <li>Adipiscing elit,set</li>
+                                <li>Duis aute irure</li>
+                                <li>Ut enim ad minim</li>
+                                <li>Dolore magna aliqua</li>
+                                <li>Excepteur sint</li>
+                            </ul>
+
+                               <form action="" method="GET">
+    {% if request.user != product.user %}
+    <input type="hidden" name="product-title" value="Activewear">
+
+    <div class="row">
+        <!-- Блок выбора размера -->
+        <div class="col-auto">
+            <ul class="list-inline pb-3">
+                <li class="list-inline-item">Size:
+                    <input type="hidden" name="product-size" id="product-size" value="S">
+                </li>
+                <li class="list-inline-item"><span class="btn btn-success btn-size active" data-size="S">S</span></li>
+                <li class="list-inline-item"><span class="btn btn-outline-success btn-size" data-size="M">M</span></li>
+                <li class="list-inline-item"><span class="btn btn-outline-success btn-size" data-size="L">L</span></li>
+                <li class="list-inline-item"><span class="btn btn-outline-success btn-size" data-size="XL">XL</span></li>
+            </ul>
+        </div>
+
+        <!-- Блок выбора количества -->
+        <div class="col-auto">
+            <ul class="list-inline pb-3">
+                <li class="list-inline-item text-right">
+                    Quantity
+                    <input type="hidden" name="product-quantity" id="product-quantity" value="1">
+                </li>
+                <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Кнопки действий -->
+    <a href="{% url 'product_payment_create' product.id %}" id="buy-now" class="btn btn-success btn-lg">Купить</a>
+    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-success add-to-cart" data-product-id="{{ product.id }}">
+        🛒 Добавить в корзину
+    </a>
+    <button id="favorite-btn-{{ product.id }}" data-product-id="{{ product.id }}" class="btn btn-outline-danger">
+    ❤️
+    </button>
+    {% endif %}
+
+    {% if request.user == product.user %}
+    <a href="#" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#customModal">Изменить</a>
+    {% endif %}
+</form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Close Content -->
+{% if user.is_authenticated and request.user != product.user %}
+    <div class="card my-4">
+        <h5 class="card-header">Оставьте отзыв:</h5>
+        <div class="card-body">
+            <form method="post" action="{% url 'rating_create' product.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Оценка:</label>
+                    <div class="rating" id="star-rating">
+                        <i class="fa fa-star" data-value="1"></i>
+                        <i class="fa fa-star" data-value="2"></i>
+                        <i class="fa fa-star" data-value="3"></i>
+                        <i class="fa fa-star" data-value="4"></i>
+                        <i class="fa fa-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="rating" name="count" required>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Комментарий:</label>
+                    <!-- Убрано required, чтобы комментарий мог быть пустым -->
+                    <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Отправить</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const stars = document.querySelectorAll(".rating .fa-star");
+            const ratingInput = document.getElementById("rating");
+
+            stars.forEach(star => {
+                star.addEventListener("click", function() {
+                    const value = this.getAttribute("data-value");
+                    ratingInput.value = value;
+                    // Снимаем подсветку со всех звезд
+                    stars.forEach(s => s.classList.remove("text-warning"));
+                    // Подсвечиваем выбранную звезду и все предыдущие
+                    this.classList.add("text-warning");
+                    let prev = this.previousElementSibling;
+                    while (prev) {
+                        prev.classList.add("text-warning");
+                        prev = prev.previousElementSibling;
+                    }
+                });
+            });
+        });
+    </script>
+{% endif %}
+
+
+<!-- Блок для отображения отзывов -->
+<div class="card my-4">
+    <h5 class="card-header">Отзывы:</h5>
+    <div class="card-body">
+        {% for rating in product.rating_set.all %}
+            <div class="mb-3 border-bottom pb-2">
+                <p><strong>{{  rating.user.first_name }}</strong> -
+                    {% for _ in "x"|rjust:rating.count %}<i class="text-warning fa fa-star"></i>{% endfor %}
+                </p>
+                <p>{{ rating.comment }}</p>
+                <p class="text-muted">{{ rating.created_at }}</p>
+                {% if user == product.user %}
+                    <!-- Форма ответа от продавца -->
+                    <form method="post" action="{% url 'rating_answer_create' rating.id %}">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label for="answer{{ rating.id }}" class="form-label">Ответ продавца:</label>
+                            <textarea class="form-control" id="answer{{ rating.id }}" name="comment" rows="2" style="max-width: 500px;" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Ответить</button>
+                    </form>
+                {% endif %}
+                {% for answer in rating.rating_answer_set.all %}
+                    <div class="mt-2 ps-3 border-start">
+                        <p><strong>Продавец:</strong> {{ answer.comment }}</p>
+                        <p class="text-muted">{{ answer.created_at }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p>Отзывов пока нет.</p>
+        {% endfor %}
+
+        {% if rating.rating_answer_set.exists %}
+    <div class="mt-3 ps-3 border-start">
+        {% for answer in rating.rating_answer_set.all %}
+            <div class="mb-2">
+                <p><strong>Продавец:</strong> {{ answer.comment }}</p>
+                <p class="text-muted small">{{ answer.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+    </div>
+</div>
+
+    <!-- Start Article -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-left p-2 pb-3">
+                <h4>Эти товары могут вам понравиться</h4>
+            </div>
+
+            <!--Start Carousel Wrapper-->
+            <div id="carousel-related-product">
+                {% for image in product.images.all %}
+                  <div class="p-2 pb-3">
+                    <div class="product-wap card rounded-0">
+                        <div class="card rounded-0">
+                            <img class="card-img rounded-0 img-fluid" src="{{ image.file.url }}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white" href="{% url 'toggle_favorite' product.id%}"><i class="far fa-heart"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <a href="shop-single.html" class="h3 text-decoration-none">{{ product.title }}</a>
+                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                <li>M/L/X/XL</li>
+                                <li class="pt-2">
+                                    <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                <li>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <p class="text-center mb-0">${{ product.price }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+            </div>
+
+
+        </div>
+    </section>
+    <!-- End Article -->
+<!-- Modal -->
+<div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="customModalLabel">Редактировать продукт</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'product_update' product.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ product_update_form.as_p }}
+                    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Выбор размера
+        const sizeButtons = document.querySelectorAll(".btn-size");
+        const sizeInput = document.getElementById("product-size");
+        const quantityInput = document.getElementById("product-quantity");
+        const quantityDisplay = document.getElementById("var-value");
+        const minusButton = document.getElementById("btn-minus");
+        const plusButton = document.getElementById("btn-plus");
+        const buyNowButton = document.getElementById("buy-now");
+        let currentQuantity = 1;
+
+        sizeButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                sizeButtons.forEach(btn => btn.classList.remove("btn-success", "active"));
+                sizeButtons.forEach(btn => btn.classList.add("btn-outline-success"));
+
+                this.classList.remove("btn-outline-success");
+                this.classList.add("btn-success", "active");
+
+                sizeInput.value = this.getAttribute("data-size");
+            });
+        });
+
+        // Изменение количества товара
+        minusButton.addEventListener("click", function () {
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                quantityDisplay.textContent = currentQuantity;
+                quantityInput.value = currentQuantity;
+            }
+        });
+
+        plusButton.addEventListener("click", function () {
+            currentQuantity++;
+            quantityDisplay.textContent = currentQuantity;
+            quantityInput.value = currentQuantity;
+        });
+
+        // Обновление ссылки "Купить"
+        function updateBuyNowLink() {
+            const productId = "{{ product.id }}";
+            const size = sizeInput.value;
+            const quantity = quantityInput.value;
+            buyNowButton.href = `{% url 'product_payment_create' 0 %}`.replace("0", productId) + `?product-size=${size}&product-quantity=${quantity}`;
+        }
+
+        buyNowButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            updateBuyNowLink();
+            window.location.href = buyNowButton.href;
+        });
+
+        // Сохранение выбора при перезагрузке
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("product-size")) {
+            const selectedSize = urlParams.get("product-size");
+            sizeInput.value = selectedSize;
+
+            sizeButtons.forEach(button => {
+                if (button.getAttribute("data-size") === selectedSize) {
+                    button.classList.remove("btn-outline-success");
+                    button.classList.add("btn-success", "active");
+                } else {
+                    button.classList.remove("btn-success", "active");
+                    button.classList.add("btn-outline-success");
+                }
+            });
+        }
+
+        if (urlParams.has("product-quantity")) {
+            currentQuantity = parseInt(urlParams.get("product-quantity"));
+            quantityDisplay.textContent = currentQuantity;
+            quantityInput.value = currentQuantity;
+        }
+
+        // Избранное
+        const favoriteBtn = document.getElementById("favorite-btn");
+        if (favoriteBtn) {
+            const productId = favoriteBtn.getAttribute("data-product-id");
+
+            favoriteBtn.addEventListener("click", function () {
+                fetch(`/toggle-favorite/${productId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_favorite) {
+                        favoriteBtn.textContent = "💔 Удалить из избранного";
+                    } else {
+                        favoriteBtn.textContent = "❤️ Добавить в избранное";
+                    }
+                });
+            });
+        }
+
+        // Добавление в корзину
+        document.querySelectorAll(".add-to-cart").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                const productId = this.getAttribute("data-product-id");
+
+                fetch(`/cart/add/${productId}/`, {
+                    method: "POST",
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}

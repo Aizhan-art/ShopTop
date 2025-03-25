@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .login-form {
+        max-width: 350px;
+        margin: 50px auto;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .custom-input {
+        height: 40px;
+        font-size: 15px;
+        border-radius: 8px;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .custom-input:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+        background-color: #ffffff;
+    }
+
+    .main-border-button {
+        background-color: #28a745; /* Зеленый цвет в стиле ShopTop */
+        color: white;
+        font-size: 16px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .main-border-button:hover {
+        background-color: #218838;
+        box-shadow: 0px 4px 10px rgba(40, 167, 69, 0.4);
+    }
+
+    .text-white {
+        font-weight: 500;
+    }
+
+    .register-link {
+        color: #28a745; /* Зеленый цвет для ссылки */
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .register-link:hover {
+        color: #218838;
+        text-decoration: none;
+    }
+</style>
+
+<div class="login-form">
+    <form action="." method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="email" class="form-label text-white">Email</label>
+            <input type="email" id="email" name="email" class="form-control custom-input" placeholder="Введите ваш email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label text-white">Пароль</label>
+            <input type="password" id="password" name="password" class="form-control custom-input" placeholder="Введите ваш пароль" required>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="main-border-button">Войти</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3">
+        <span class="text-white">Нет аккаунта?</span>
+        <a href="register.html" class="register-link">Зарегистрироваться</a>
+    </div>
+</div>
+
+{% endblock %}

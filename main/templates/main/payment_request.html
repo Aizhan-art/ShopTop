@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3 class="text-center mb-4 text-success">Ваши платежные запросы</h3>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle text-center border">
+            <thead class="bg-success text-white">
+              <tr>
+                <th>Чек</th>
+                <th>Покупатель</th>
+                <th>Дата</th>
+                <th>Продукт</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for payment_request in payment_requests %}
+                <tr>
+                  <td>
+                    <img src="{{ payment_request.check_image.url }}" alt="Чек" class="rounded" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #28a745;">
+                  </td>
+                  <td class="text-secondary">{{ payment_request.user.first_name }}</td>
+                  <td class="text-secondary">{{ payment_request.created_date|date:"d/m/Y H:i" }}</td>
+                  <td class="text-secondary">{{ payment_request.product }}</td>
+                  <td class="text-secondary">{{ payment_request.quantity }}</td>
+                  <td class="text-success fw-bold">{{ payment_request.total_price }} &#8381;</td>
+                  <td>
+                    <span class="badge bg-light text-success border border-success">{{ payment_request.get_status_display }}</span>
+                  </td>
+                  <td>
+                    <div class="d-flex flex-column align-items-center">
+                      <form method="post" action="{% url 'payment_request_update_status' payment_request.id %}" class="mb-2">
+                        {% csrf_token %}
+                        <select class="form-select form-select-sm border-success text-secondary" name="status" onchange="this.form.submit()">
+                          <option selected>Изменить</option>
+                          <option value="in_processing">В обработке</option>
+                          <option value="denied">Отклонено</option>
+                          <option value="accepted">Принято</option>
+                        </select>
+                      </form>
+                      <a class="btn btn-outline-success btn-sm" href="{{ payment_request.check_image.url }}" download>
+                        <i class="fa fa-download"></i> Сохранить чек
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="{% url 'user_profile' %}" class="btn btn-success">Назад</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

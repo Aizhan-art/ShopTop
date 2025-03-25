@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-success text-center">Популярные товары</h2>
+</div>
+
+<!-- Карусель популярных товаров -->
+<div id="popular-products-carousel" class="carousel slide bg-light" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in popular_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="col-md-6 text-center">
+                            <img src="{{ product.main_image.url }}" class="img-fluid rounded shadow-sm"
+                                 alt="{{ product.title }}" style="height: 300px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div>
+                                <h3 class="text-success"><b>{{ product.title }}</b></h3>
+                                <h5 class="text-muted">Просмотров: {{ product.views }}</h5>
+                                <p class="text-muted">{{ product.description|truncatewords:20 }}</p>
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-success btn-sm">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#popular-products-carousel" role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left fa-2x text-dark"></i>
+    </a>
+    <a class="carousel-control-next" href="#popular-products-carousel" role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right fa-2x text-dark"></i>
+    </a>
+</div>
+
+<!-- Популярные категории -->
+<section class="container py-5">
+    <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+            <h1 class="h1 text-success"></h1>
+            <p></p>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        {% for category in categories %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-4">
+                <div class="category-card">
+                    <a href="{% url 'category_products' category.id %}"><img src="{{ category.image.url }}" class="category-img"></a>
+                    <h6 class="text-success mt-2">{{ category.title }}</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Товары -->
+<section class="bg-light">
+    <div class="container py-5">
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1 text-success">Рекомендованные товары</h1>
+                <p>Лучшие предложения специально для вас.</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.title }}"
+                                 style="height: 300px; object-fit: cover;">
+                        </a>
+                        <div class="card-body">
+                            <div class="text-warning">
+                                {% for i in "12345" %}
+                                  {% if forloop.counter <= product.avg_rating %}
+                                    <i class="fa fa-star text-warning"></i>
+                                  {% else %}
+                                    <i class="fa fa-star text-secondary"></i>
+                                  {% endif %}
+                                {% endfor %}
+                                <span class="text-dark">{{ product.avg_rating|floatformat:1 }}</span>
+                            </div>
+                            <a href="{% url 'product_detail' product.id %}" class="h2 text-decoration-none text-dark">
+                                {{ product.title }}
+                            </a>
+                            <p class="text-muted">{{ product.category.title }}</p>
+                            <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Стили -->
+<style>
+    .category-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        padding: 5px;
+    }
+    .category-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+{% endblock %}
