@@ -84,10 +84,10 @@ def otp_verification_view(request, user_id):
 @login_required
 def toggle_2fa(request):
     user = request.user
-    user.is_2fa_enabled = not user.is_2fa_enabled
+    user.is_otp = not user.is_otp
     user.save()
 
-    if user.is_2fa_enabled:
+    if user.is_otp:
         messages.success(request, "Двухфакторная аутентификация включена!")
     else:
         messages.warning(request, "Двухфакторная аутентификация отключена!")
@@ -106,3 +106,4 @@ def profile_edit_view(request):
         form = ProfileUpdateForm(instance=user)
 
     return render(request, "account/profile_edit.html", {"form": form})
+
